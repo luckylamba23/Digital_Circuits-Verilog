@@ -1,0 +1,41 @@
+//DUT
+module ha(a,b,sum,carry);
+input a,b;
+output sum,carry;
+
+and A1(carry,a,b);
+xor X1(sum,a,b);
+
+endmodule
+
+module FA(a,b,cin,sum,carry);
+input a,b,cin;
+output sum,carry;
+wire w1,w2,w3;
+
+ha h1(.sum(w1),.carry(w2),.a(a),.b(b));
+ha h2(.sum(sum),.carry(w3),.a(w1),.b(cin));
+or O1 (carry,w2,w3);
+
+endmodule
+
+//TB
+module fa_tb;
+reg a,b,cin;
+wire sum,carry;
+
+FA F1(.sum(sum),.carry(carry),.a(a),.b(b),.cin(cin));
+
+initial begin
+$monitor ("sum = %b, carry = %b , a = %b , b = %b , cin = %b",sum,carry,a,b,cin);
+a=1'b0;b=1'b0;cin=1'b0;#5;
+a=1'b0;b=1'b0;cin=1'b1;#5;
+a=1'b0;b=1'b1;cin=1'b0;#5;
+a=1'b0;b=1'b1;cin=1'b1;#5;
+a=1'b1;b=1'b0;cin=1'b0;#5;
+a=1'b1;b=1'b0;cin=1'b1;#5;
+a=1'b1;b=1'b1;cin=1'b0;#5
+a=1'b1;b=1'b1;cin=1'b1;#5;
+$finish;
+end
+endmodule
