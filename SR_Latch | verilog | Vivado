@@ -1,0 +1,45 @@
+//DUT
+module sr_latch(s,r,en,q,qb);
+input s,r,en;
+output reg q;
+output qb;
+reg Qb;
+
+always @(s,r,en)begin
+if (en)
+case ({s,r})
+2'b00 : begin q<=1'b0; Qb<=1'b1; end
+2'b01 : begin q<=1'b0;Qb<=1'b0;end
+2'b10 : begin q <= 1'b1; Qb<=0; end
+2'b11 : begin q <= 1'bx; Qb<=1'bx; end
+endcase
+else begin
+q <=1'b0;
+Qb<=1'b1;
+end
+end
+assign qb = Qb;
+endmodule
+
+//Testbench
+module sr_latch_tb;
+reg s,r,en;
+wire q,qb;
+sr_latch SR1(.q(q),.qb(qb),.s(s),.r(r),.en(en));
+
+initial begin
+    s=1'b0 ; r = 1'b0; en = 1'b0; #5;
+    $display("s = %b, r=%b ,q = %b, qb = %b", s,r, q, qb);
+    s = 1'b0; r = 1'b1; en = 1'b1; #5;
+    $display("sr = %b, r=%b ,q = %b, qb = %b", s,r, q, qb);
+    s = 1'b0; r = 1; en = 1'b0; #5;
+        $display("sr = %b, r=%b ,q = %b, qb = %b", s,r, q, qb);
+    s = 1'b1 ; r = 1'b0; en = 1'b1; #5;
+    $display("s = %b,r = %b ,q = %b, qb = %b", s,r, q, qb);
+    s = 1'b1 ; r = 1'b0; en = 1'b0; #5;
+        $display("s = %b,r = %b ,q = %b, qb = %b", s,r, q, qb);
+    s = 1'b1 ; r = 1'b1; en = 1'b1; #5;
+    $display("s = %b,r = %b ,q = %b, qb = %b", s,r, q, qb);
+    $finish;
+  end
+endmodule
