@@ -1,0 +1,42 @@
+//DUT
+module encoder8x3(x,y,z,i0,i1,i2,i3,i4,i5,i6,i7);
+input i0,i1,i2,i3,i4,i5,i6,i7;
+output reg x,y,z;
+
+always @(i0,i1,i2,i3,i4,i5,i6,i7) begin
+case ({i7,i6,i5,i4,i3,i2,i1,i0})
+8'b00000000:begin x = 1'b0 ; y = 1'b0 ; z = 1'b0 ; end
+8'b00000001:begin x = 1'b0 ; y = 1'b0 ; z = 1'b0 ; end
+8'b00000010:begin x = 1'b0 ; y = 1'b0 ; z = 1'b1 ; end
+8'b00000100:begin x = 1'b0 ; y = 1'b1 ; z = 1'b0 ; end
+8'b00001000:begin x = 1'b0 ; y = 1'b1 ; z = 1'b1 ; end
+8'b00010000:begin x = 1'b1 ; y = 1'b0 ; z = 1'b0 ; end
+8'b00100000:begin x = 1'b1 ; y = 1'b0 ; z = 1'b1 ; end
+8'b01000000:begin x = 1'b1 ; y = 1'b1 ; z = 1'b0 ; end
+8'b10000000:begin x = 1'b1 ; y = 1'b1 ; z = 1'b1 ; end
+endcase
+end
+endmodule
+
+//TB
+
+module encoder8x3_tb();
+reg i0,i1,i2,i3,i4,i5,i6,i7;
+wire x,y,z;
+encoder8x3 E1(.x(x),.y(y),.z(z),.i0(i0),.i1(i1),.i2(i2),.i3(i3),.i4(i4),.i5(i5),.i6(i6),.i7(i7));
+
+initial begin 
+$monitor ("i0=%b,i1=%b,i2=%b,i3=%b,i4=%b,i5=%b,i6=%b,i7=%b,x=%b,y=%b,z=%b",x,y,z,i0,i1,i2,i3,i4,i5,i6,i7);
+
+i7=1'b0;i6=1'b0;i5=1'b0;i4=1'b0;i3=1'b0;i2=1'b0;i1=1'b0;i0=1'b0; #2;
+i7=1'b0;i6=1'b0;i5=1'b0;i4=1'b0;i3=1'b0;i2=1'b0;i1=1'b0;i0=1'b1; #2;
+i7=1'b0;i6=1'b0;i5=1'b0;i4=1'b0;i3=1'b0;i2=1'b0;i1=1'b1;i0=1'b0; #2;
+i7=1'b0;i6=1'b0;i5=1'b0;i4=1'b0;i3=1'b0;i2=1'b1;i1=1'b0;i0=1'b0; #2;
+i7=1'b0;i6=1'b0;i5=1'b0;i4=1'b0;i3=1'b1;i2=1'b0;i1=1'b0;i0=1'b0; #2;
+i7=1'b0;i6=1'b0;i5=1'b0;i4=1'b1;i3=1'b0;i2=1'b0;i1=1'b0;i0=1'b0; #2;
+i7=1'b0;i6=1'b0;i5=1'b1;i4=1'b0;i3=1'b0;i2=1'b0;i1=1'b0;i0=1'b0; #2;
+i7=1'b0;i6=1'b1;i5=1'b0;i4=1'b0;i3=1'b0;i2=1'b0;i1=1'b0;i0=1'b0; #2;
+i7=1'b1;i6=1'b0;i5=1'b0;i4=1'b0;i3=1'b0;i2=1'b0;i1=1'b0;i0=1'b0; #2;
+$finish;
+end
+endmodule
