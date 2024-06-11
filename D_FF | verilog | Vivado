@@ -1,0 +1,66 @@
+//DUT
+module d_ff(
+    input d,
+    input clk,rst,
+    output reg q,
+    output qb
+    );
+reg Qb;
+  
+    always @(posedge clk ) begin
+    if (rst) begin
+    q <= 1'b0;
+    Qb <= 1'b1;
+    en
+    else begin
+    q <= d;
+    Qb <= ~d;
+    end
+end
+assign q = Qb;
+endmodule
+
+//Testbench
+
+module D_ff_tb;
+    reg d;
+    reg clk;
+    reg rst;
+    wire q;
+    wire qb;
+
+    // Instantiate the D flip-flop
+    d_ff UUT (
+        .q(q),
+        .qb(qb),
+        .d(d),
+        .clk(clk),
+        .rst(rst)
+    );
+
+    initial begin
+        clk = 0; 
+        rst = 1'b0;
+        #5 rst = 1'b1;
+        #10 rst = 1'b0;
+    end
+
+    always #5 clk = ~clk;
+
+    initial begin
+        d = 1'b0;
+        #15;
+        d = 1'b0;
+        #5;
+        d = 1'b1;
+        #5;
+        d = 1'b1;
+        #5;
+        d = 1'b0;
+        #5;
+    end
+
+    initial begin
+        #40 $finish;
+    end
+endmodule
