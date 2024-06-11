@@ -1,0 +1,37 @@
+//DUT
+module masterSlave(data,clk,q,qb,clr);
+input data,clr,clk;
+output q,qb;
+wire data_b,clk_b,a,b,c,d,e,f;
+
+not  N1 (data_b,data); 
+not  N2 (clk_b , clk);
+and  A1 (a,data,clk,clr);
+and  A2 (b,data_b,clk);
+and  A3 (c,a,d);
+and  A4 (d,b,c,clr);
+and  A5 (e,c,clk_b);
+and  A6 (f,clk_b,d);
+and  A7 (q,e,qb);
+and  A8 (qb,f,clr);
+
+endmodule
+
+//TB
+module masterSlave_tb;
+reg data ,clk,clr;
+wire q,qb;
+masterSlave uut (.q(q),.qb(qb),.data(data),.clk(clk),.clr(clr));
+
+initial begin clr = 1; clk =0;
+#2 clr = 0 ;  end
+always #5 clk = ~ clk;
+initial begin
+data = 1;
+#10 data = 0;
+#10 data = 1;
+#10 data = 0;
+$finish;
+end
+
+endmodule
