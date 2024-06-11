@@ -1,0 +1,38 @@
+//DUT
+module sr2t(t,clk,rst,q,qb);
+input t,clk,rst;
+output q,qb;
+wire w1 , w2;
+
+and A1 (w1 , t , qb),
+A2 (w2 , t , q);
+
+sr_ff FF(.q(q),.qb(qb),.s(w1),.r(w2),.clk(clk),.rst(rst));
+
+endmodule
+
+//Testbench
+
+module sr2t_tb;
+reg t,clk,rst;
+wire q,qb;
+sr2t uut (.q(q),.qb(qb),.t(t),.clk(clk),.rst(rst));
+
+initial begin clk = 1'b0; 
+rst = 1'b0;
+#5 rst = 1'b1;
+#10 rst = 1'b0;
+end
+always #5 clk = ~clk;
+initial begin 
+#15 t = 1'b0 ;
+t = 1'b0; #5;
+t = 1'b1; #5;
+t = 1'b1; #5;
+t = 1'b0; #5;
+t = 1'b1; #5;
+t = 1'b0; #5;
+t = 1'b1; #5;
+$finish;
+end
+endmodule
