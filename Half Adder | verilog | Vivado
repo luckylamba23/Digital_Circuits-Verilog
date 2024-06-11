@@ -1,0 +1,22 @@
+//DUT
+module ha(a,b,sum,carry);
+input a,b;
+output sum,carry;
+xor(sum,a,b);
+and(carry,a,b);
+endmodule
+
+//TB
+module ha_tb;
+reg a,b;
+wire sum, carry;
+
+ha HA1(.sum(sum),.carry(carry),.a(a),.b(b));
+initial begin
+a=1'b0;b=1'b0;#5;
+a=1'b0;b=1'b0;#5;
+a=1'b1;b=1'b0;#5;
+a=1'b1;b=1'b1;#5;
+$finish();
+end
+endmodule
