@@ -1,0 +1,34 @@
+//DUT
+module d_latch(
+    input d,en,
+    output reg  q,
+    output qb); 
+    
+   assign qb = ~q;
+   initial q <= 0;
+   always @ (en) begin 
+   if (en) begin
+   q <=d;
+   end
+   else 
+   q <= 1'b0;
+   end
+endmodule
+
+// Testbench
+
+module dLatch_tb;
+reg d,en;
+wire q , qb;
+d_latch uut(.q(q),.qb(qb),.d(d),.en(en));
+initial en=0;
+always #5 en = ~en;
+initial begin
+d = 1'b1;
+d = 1'b1;#5;
+d = 1'b0;#5;
+d = 1'b1;#5;
+d = 1'b0;#5;
+$finish;
+end
+endmodule
