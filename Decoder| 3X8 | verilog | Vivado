@@ -1,0 +1,41 @@
+//DUT
+module decoder3x8(i0,i1,i2,y0,y1,y2,y3,y4,y5,y6,y7);
+input i0,i1,i2;
+output reg y0,y1,y2,y3,y4,y5,y6,y7;
+
+always @(i0,i1,i2) begin
+
+case({i0,i1,i2})
+
+3'b000:begin y0=1'b1;y1=1'b0;y2=1'b0;y3=1'b0;y4=1'b0;y5=1'b0;y6=1'b0;y7=1'b0;end
+3'b001:begin y0=1'b0;y1=1'b1;y2=1'b0;y3=1'b0;y4=1'b0;y5=1'b0;y6=1'b0;y7=1'b0;end
+3'b010:begin y0=1'b0;y1=1'b0;y2=1'b1;y3=1'b0;y4=1'b0;y5=1'b0;y6=1'b0;y7=1'b0;end
+3'b011:begin y0=1'b0;y1=1'b0;y2=1'b0;y3=1'b1;y4=1'b0;y5=1'b0;y6=1'b0;y7=1'b0;end
+3'b100:begin y0=1'b0;y1=1'b0;y2=1'b0;y3=1'b0;y4=1'b1;y5=1'b0;y6=1'b0;y7=1'b0;end
+3'b101:begin y0=1'b0;y1=1'b0;y2=1'b0;y3=1'b0;y4=1'b0;y5=1'b1;y6=1'b0;y7=1'b0;end
+3'b110:begin y0=1'b0;y1=1'b0;y2=1'b0;y3=1'b0;y4=1'b0;y5=1'b0;y6=1'b1;y7=1'b0;end
+3'b111:begin y0=1'b0;y1=1'b0;y2=1'b0;y3=1'b0;y4=1'b0;y5=1'b0;y6=1'b0;y7=1'b1;end
+endcase
+end
+endmodule
+
+//TB
+module decoder3x8_tb();
+reg i0,i1,i2;
+wire y0,y1,y2,y3,y4,y5,y6,y7;
+decoder3x8 D1 (.y0(y0),.y1(y1),.y2(y2),.y3(y3),.y4(y4),.y5(y5),.y6(y6),.y7(y7),.i0(i0),.i1(i1),.i2(i2));
+
+initial begin 
+$monitor ("y0=%b,y1=%b,y2=%b,y3=%b,y4=%b,y5=%b,y6=%b,y7=%b,i0=%b,i1=%b,i2=%b",y0,y1,y2,y3,y4,y5,y6,y7,i0,i1,i2);
+
+i0=1'b0;i1=1'b0;i2=1'b0;#2;
+i0=1'b0;i1=1'b0;i2=1'b1;#2;
+i0=1'b0;i1=1'b1;i2=1'b0;#2;
+i0=1'b0;i1=1'b1;i2=1'b1;#2;
+i1=1'b0;i1=1'b0;i2=1'b0;#2;
+i0=1'b1;i1=1'b0;i2=1'b1;#2;
+i0=1'b1;i1=1'b1;i2=1'b0;#2;
+i0=1'b1;i1=1'b1;i2=1'b1;#2;
+$finish;
+end
+endmodule
