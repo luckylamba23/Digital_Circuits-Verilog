@@ -1,0 +1,31 @@
+//DUT
+module mux2x(i0,i1,s,y);
+input  i0,i1,s;
+output reg y;
+
+always @(s,i0,i1) begin
+if (s==1'b0) begin
+y = i0; end
+else
+y = i1;
+end
+endmodule
+
+//Tb
+
+module mux2x_tb();
+reg i0,i1,s;
+wire y;
+
+mux2x M1(.y(y),.s(s),.i0(i0),.i1(i1));
+
+initial begin
+$monitor ("y=%b,s=%b,i1=%b,i0=%b",y,s,i0,i1);
+i0=1'b1;i1=1'b0; s=1'b0;#2;
+i0=1'b1;i1=1'b0; s=1'b1;#2;
+i0=1'b0;i1=1'b1; s=1'b1;#2;
+i0=1'b1;i1=1'b1; s=1'b0;#2;
+i0=1'b1;i1=1'b1; s=1'b1;#2;
+$finish;
+end
+endmodule
